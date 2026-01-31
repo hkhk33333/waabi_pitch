@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Operations Command Center | Waabi PM Pitch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/theme/black.css">
+    <style>
+        :root {
+            --waabi-purple: #6B5CE7;
+            --waabi-blue: #4A90E2;
+            --waabi-dark: #0D0D1A;
+            --waabi-darker: #060610;
+            --waabi-light: #E8E6F5;
+            --waabi-accent: #00D9FF;
+            --waabi-gradient: linear-gradient(135deg, #6B5CE7 0%, #4A90E2 100%);
+        }
+
+        .reveal-viewport {
+            background: var(--waabi-darker);
+        }
+
+        .reveal {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 32px;
+            color: var(--waabi-light);
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            text-transform: none;
+            color: white;
+        }
+
+        .reveal h1 {
+            font-size: 2.4em;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h2 {
+            font-size: 1.8em;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h3 {
+            font-size: 1.2em;
+            color: var(--waabi-accent);
+            font-weight: 500;
+        }
+
+        .reveal p {
+            line-height: 1.5;
+        }
+
+        .reveal section {
+            height: 100%;
+            padding: 40px 60px;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide h1 {
+            background: var(--waabi-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.8em;
+            margin-bottom: 0.2em;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.4em;
+            color: var(--waabi-light);
+            opacity: 0.9;
+            margin-bottom: 1.5em;
+        }
+
+        .title-slide .meta {
+            font-size: 0.7em;
+            color: var(--waabi-light);
+            opacity: 0.6;
+        }
+
+        .title-slide .role {
+            color: var(--waabi-accent);
+            font-weight: 500;
+        }
+
+        /* Problem Slide - 3 Column */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            align-items: start;
+            margin-top: 30px;
+        }
+
+        .problem-card {
+            background: rgba(107, 92, 231, 0.1);
+            border: 1px solid rgba(107, 92, 231, 0.3);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .problem-card.current {
+            border-color: rgba(107, 92, 231, 0.5);
+        }
+
+        .problem-card.gap {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--waabi-accent);
+            border-width: 2px;
+            border-style: dashed;
+        }
+
+        .problem-card h3 {
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .problem-card.gap h3 {
+            color: var(--waabi-accent);
+        }
+
+        .problem-card ul {
+            text-align: left;
+            font-size: 0.7em;
+            line-height: 1.8;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .problem-card ul li::before {
+            content: "→";
+            color: var(--waabi-purple);
+            margin-right: 10px;
+        }
+
+        .problem-card.gap ul li::before {
+            color: var(--waabi-accent);
+        }
+
+        .arrow-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: var(--waabi-purple);
+            opacity: 0.5;
+        }
+
+        .context-note {
+            margin-top: 30px;
+            font-size: 0.65em;
+            color: var(--waabi-light);
+            opacity: 0.7;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Solution Slide */
+        .solution-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .solution-example {
+            background: rgba(107, 92, 231, 0.15);
+            border-radius: 16px;
+            padding: 25px;
+            font-family: monospace;
+            font-size: 0.65em;
+            line-height: 1.6;
+            border-left: 4px solid var(--waabi-purple);
+        }
+
+        .solution-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .solution-col h3 {
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--waabi-purple);
+        }
+
+        .solution-col:last-child h3 {
+            border-color: var(--waabi-accent);
+            color: var(--waabi-accent);
+        }
+
+        .solution-col ul {
+            font-size: 0.65em;
+            line-height: 2;
+            list-style: none;
+            padding: 0;
+        }
+
+        .solution-col ul li::before {
+            content: "✓";
+            color: var(--waabi-purple);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .solution-col:last-child ul li::before {
+            color: var(--waabi-accent);
+        }
+
+        .competitive-pressure {
+            grid-column: 1 / -1;
+            background: linear-gradient(90deg, rgba(255, 100, 100, 0.1), rgba(255, 100, 100, 0.05));
+            border-left: 4px solid #ff6464;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 0.7em;
+            margin-top: 10px;
+        }
+
+        .competitive-pressure strong {
+            color: #ff6464;
+        }
+
+        /* Architecture Slide */
+        .architecture-content {
+            margin-top: 20px;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: var(--waabi-gradient);
+            padding: 18px 28px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 0.75em;
+            color: white;
+        }
+
+        .flow-box.secondary {
+            background: rgba(107, 92, 231, 0.2);
+            border: 1px solid var(--waabi-purple);
+        }
+
+        .flow-arrow {
+            font-size: 1.5em;
+            color: var(--waabi-accent);
+        }
+
+        .tradeoffs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .tradeoff-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .tradeoff-card h4 {
+            color: var(--waabi-accent);
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tradeoff-card p {
+            font-size: 0.6em;
+            line-height: 1.5;
+            opacity: 0.85;
+            margin: 0;
+        }
+
+        /* Metrics Slide */
+        .metrics-layout {
+            margin-top: 25px;
+        }
+
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: linear-gradient(180deg, rgba(107, 92, 231, 0.15) 0%, rgba(107, 92, 231, 0.05) 100%);
+            border: 1px solid rgba(107, 92, 231, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .metric-card .icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .metric-card h3 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .metric-card p {
+            font-size: 0.6em;
+            opacity: 0.8;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .methodology {
+            background: rgba(0, 217, 255, 0.08);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px 30px;
+        }
+
+        .methodology h3 {
+            font-size: 0.8em;
+            margin-bottom: 12px;
+        }
+
+        .methodology p {
+            font-size: 0.6em;
+            margin: 0;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Roadmap Slide */
+        .roadmap-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80%;
+        }
+
+        .roadmap-phases {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .phase {
+            text-align: center;
+            position: relative;
+        }
+
+        .phase::after {
+            content: "";
+            position: absolute;
+            top: 35px;
+            right: -12px;
+            width: 24px;
+            height: 2px;
+            background: var(--waabi-purple);
+        }
+
+        .phase:last-child::after {
+            display: none;
+        }
+
+        .phase-number {
+            width: 70px;
+            height: 70px;
+            background: var(--waabi-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0 auto 15px;
+        }
+
+        .phase h3 {
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .phase p {
+            font-size: 0.55em;
+            opacity: 0.7;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .closing {
+            font-size: 1.8em;
+            color: var(--waabi-light);
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .problem-grid,
+            .solution-layout,
+            .tradeoffs-grid,
+            .metric-cards,
+            .roadmap-phases {
+                grid-template-columns: 1fr;
+            }
+
+            .arrow-connector {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Progress bar */
+        .reveal .progress {
+            background: rgba(107, 92, 231, 0.2);
+            height: 4px;
+        }
+
+        .reveal .progress span {
+            background: var(--waabi-gradient);
+        }
+
+        /* Navigation */
+        .reveal .controls {
+            color: var(--waabi-purple);
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <h1>Fleet Operations Command Center</h1>
+                <p class="subtitle">Enabling Driverless Launch at Scale</p>
+                <p class="meta">
+                    <span class="role">Product Management Intern</span><br>
+                    Waabi · Summer 2026
+                </p>
+            </section>
+
+            <!-- Slide 2: Problem -->
+            <section>
+                <h2>The Operational Gap</h2>
+                <div class="problem-grid">
+                    <div class="problem-card current">
+                        <h3>What Waabi Has Built</h3>
+                        <ul>
+                            <li>World-class Waabi Driver AI</li>
+                            <li>Waabi World simulator</li>
+                            <li>Volvo hardware partnership</li>
+                            <li>Highway + surface street capability</li>
+                        </ul>
+                    </div>
+                    <div class="arrow-connector">⟷</div>
+                    <div class="problem-card gap">
+                        <h3>What Driverless Ops Needs</h3>
+                        <ul>
+                            <li>Pre-launch verification workflow</li>
+                            <li>Real-time fleet monitoring</li>
+                            <li>Incident response coordination</li>
+                            <li>Operational analytics at scale</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="context-note">
+                    With $1B raised and 25,000 vehicles committed via Uber, scaling from testing to commercial operations requires operational infrastructure that doesn't yet exist.
+                </p>
+            </section>
+
+            <!-- Slide 3: Solution -->
+            <section>
+                <h2>Fleet Operations Command Center</h2>
+                <div class="solution-layout">
+                    <div class="solution-example">
+                        <strong style="color: var(--waabi-accent);">// Pre-Launch Check</strong><br><br>
+                        Truck VNL-4872 at SF Terminal<br>
+                        ├─ Hardware diagnostics: ✓ PASS<br>
+                        ├─ Waabi Driver health: ✓ PASS<br>
+                        ├─ Route conditions: ✓ CLEAR<br>
+                        ├─ Weather check: ✓ OPTIMAL<br>
+                        └─ Cargo manifest: ✓ VERIFIED<br><br>
+                        <span style="color: #00ff88;">→ CLEARED FOR DRIVERLESS LAUNCH</span>
+                    </div>
+                    <div class="solution-columns">
+                        <div class="solution-col">
+                            <h3>What This Requires</h3>
+                            <ul>
+                                <li>Waabi Driver API integration</li>
+                                <li>Real-time telemetry pipeline</li>
+                                <li>Automated verification rules</li>
+                                <li>Escalation workflows</li>
+                            </ul>
+                        </div>
+                        <div class="solution-col">
+                            <h3>Why Now</h3>
+                            <ul>
+                                <li>Commercial launch imminent</li>
+                                <li>Uber partnership requires scale</li>
+                                <li>Regulatory scrutiny increasing</li>
+                                <li>Rescue costs at $4-5K/incident</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="competitive-pressure">
+                        <strong>Competitive context:</strong> Aurora, Kodiak, and TuSimple are all building operational tooling. Waabi's AI lead could be offset by operational gaps at scale.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Architecture -->
+            <section>
+                <h2>Technical Architecture</h2>
+                <div class="architecture-content">
+                    <div class="flow-diagram">
+                        <div class="flow-box">Terminal Ops</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box secondary">Command Center</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">Waabi Driver</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box secondary">Fleet Telemetry</div>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">Insights</div>
+                    </div>
+                    <div class="tradeoffs-grid">
+                        <div class="tradeoff-card">
+                            <h4>Latency</h4>
+                            <p>Sub-second updates for critical alerts; batch processing for analytics to balance cost</p>
+                        </div>
+                        <div class="tradeoff-card">
+                            <h4>Reliability</h4>
+                            <p>Graceful degradation if connectivity drops; local edge caching at terminals</p>
+                        </div>
+                        <div class="tradeoff-card">
+                            <h4>Privacy</h4>
+                            <p>On-prem processing for sensitive data; anonymized metrics for dashboards</p>
+                        </div>
+                        <div class="tradeoff-card">
+                            <h4>Cost</h4>
+                            <p>Tiered storage for telemetry; auto-scaling based on active fleet size</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Metrics -->
+            <section>
+                <h2>Measuring Success</h2>
+                <div class="metrics-layout">
+                    <div class="metric-cards">
+                        <div class="metric-card">
+                            <div class="icon">🚀</div>
+                            <h3>Launch Success Rate</h3>
+                            <p>% of trucks cleared for driverless ops on first verification attempt</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="icon">⚡</div>
+                            <h3>Incident Response Time</h3>
+                            <p>Time from anomaly detection to operator acknowledgment and action</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="icon">📊</div>
+                            <h3>Operational Efficiency</h3>
+                            <p>Trucks launched per operator-hour; proxy for operational scalability</p>
+                        </div>
+                    </div>
+                    <div class="methodology">
+                        <h3>Measurement Approach</h3>
+                        <p>
+                            <strong>Why these metrics:</strong> Launch success directly impacts fleet utilization and revenue. Response time correlates with safety outcomes and rescue costs. Efficiency enables the Uber scale commitment without proportional headcount growth.
+                            <br><br>
+                            <strong>Causal rigor:</strong> A/B test dashboard features via operator cohorts. Use interrupted time-series analysis for process changes. Control for route difficulty and weather when comparing performance.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Roadmap -->
+            <section>
+                <h2>Path Forward</h2>
+                <div class="roadmap-content">
+                    <div class="roadmap-phases">
+                        <div class="phase">
+                            <div class="phase-number">1</div>
+                            <h3>Prototype</h3>
+                            <p>Core dashboard with SF terminal pilot</p>
+                        </div>
+                        <div class="phase">
+                            <div class="phase-number">2</div>
+                            <h3>Validate</h3>
+                            <p>Operator feedback loops, iterate on workflows</p>
+                        </div>
+                        <div class="phase">
+                            <div class="phase-number">3</div>
+                            <h3>Measure</h3>
+                            <p>Instrument metrics, establish baselines</p>
+                        </div>
+                        <div class="phase">
+                            <div class="phase-number">4</div>
+                            <h3>Scale</h3>
+                            <p>If metrics support, expand to multi-terminal ops</p>
+                        </div>
+                    </div>
+                    <p class="closing">Thank you.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+    <script>
+        Reveal.initialize({
+            width: 1100,
+            height: 700,
+            margin: 0.08,
+            center: false,
+            hash: true,
+            progress: true,
+            controls: true,
+            controlsTutorial: false,
+            slideNumber: 'c/t',
+            transition: 'fade',
+            transitionSpeed: 'fast'
+        });
+    </script>
+</body>
+</html>
